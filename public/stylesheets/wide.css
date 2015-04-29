@@ -21,6 +21,10 @@ section{
     height: 200px;
 }
 
+img{
+	width: 30%;
+}
+
 footer{
     clear: both;
     display: block;
