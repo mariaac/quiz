@@ -10,6 +10,7 @@ exports.statistics = function(req, res){
 			var sinComments = 0;
 			var conComments = 0;
 			var i = 0;
+			var k = 0;
 			var array=[];
 			for(i=0; i<numComentarios; i++){
 				if(array[comments[i].QuizId]){
@@ -17,14 +18,14 @@ exports.statistics = function(req, res){
 				}else{
 					array[comments[i].QuizId] = 1;
 				}
+				conComments = 0;
 			}
-			for(i=0; i<numPregs; i++){
-				if(array[i]){
+			for(k=0; k<array.length; k++){
+				if(array[k]){
 					conComments++;
-				} else{
-					sinComments++;
 				}
 			}
+			sinComments = numPregs - conComments;
 			res.render('quizes/statistics', {quizes: quizes, preguntas: numPregs, comentarios: numComentarios, media: media, sinComments: sinComments, conComments: conComments, errors: []});
 		}).catch(function(error){next(error);})
 	}).catch(function(error){next(error);})
