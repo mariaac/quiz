@@ -21,3 +21,7 @@ footer, input{
 img{
 	width: 30%;
 }
+
+.quiz_img {
+	float: none;
+}
