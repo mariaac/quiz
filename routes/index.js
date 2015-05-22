@@ -49,6 +49,7 @@ router.post('/user', userController.create); //registrar usuario
 router.get('/user/:userId(\\d+)/edit', sessionController.loginRequired, userController.edit, userController.ownershipRequired);
 router.put('/user/:userId(\\d+)', sessionController.loginRequired, userController.ownershipRequired, userController.update);
 router.delete('/user/:userId(\\d+)', sessionController.loginRequired, userController.ownershipRequired, userController.destroy);
+router.get('/user/:userId(\\d+)/quizes', quizController.index);
 
 module.exports = router;
 
