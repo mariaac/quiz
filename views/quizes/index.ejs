@@ -11,19 +11,34 @@
 				<td><a href="/quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
 				<%if(session.user){
 					if (session.user.isAdmin || session.user.id === quizes[i].UserId) {%>
-					<td><a href="/quizes/<%= quizes[i].id %>/edit"><button>editar</button></a></td>
-					<td>
-						<form method = "post" action = "/quizes/<%= quizes[i].id %>?_method=delete">
-	 						<button type = "submit" onClick = "return confirm('Borrar: <%= quizes[i].pregunta%>');">
-	 							borrar
-							</button>
-	 					</form>
-	 				</td>
-	 				<%}
-	 			}%>
-			</tr>
+						<td><a href="/quizes/<%= quizes[i].id %>/edit"><button>editar</button></a></td>
+						<td>
+							<form method = "post" action = "/quizes/<%= quizes[i].id %>?_method=delete">
+		 						<button type = "submit" onClick = "return confirm('Borrar: <%= quizes[i].pregunta%>');">
+		 							borrar
+								</button>
+		 					</form>
+		 				</td>
+	 				<%}%>
+	 				<td>
+	 				<%if(quizes[i].isFav){%>
+			 				<form method="post" action="/user/<%= session.user.id %>/favourites/<%= quizes[i].id %>?_method=delete">
+	 							<input type ="image" id="star" src="/images/estrellaAmarilla.png" onClick='return confirm(" ¿Quitar de favoritos? <%= quizes[i].pregunta %>");'>
+							</form>
+						<%} else {%>
+							<form method="post" action="/user/<%= session.user.id %>/favourites/<%= quizes[i].id %>?_method=put">
+	 							<input type ="image" id="star" src="/images/estrellaGris.gif">
+							</form>
+						<%}%>
+					</td>
+				<%}%>
+	 		</tr>
+			
 	<% } %>
 </table><p/>
 <%if(session.user){%>
 	<a href = "/quizes/new"><button type="button"> Crear pregunta </button></a>
 <%}%>
+
+
+		

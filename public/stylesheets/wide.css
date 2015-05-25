@@ -29,3 +29,8 @@ footer{
     clear: both;
     display: block;
 }
+
+#star {
+	width: 20px;
+	height: 20px;
+}

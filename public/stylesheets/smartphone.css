@@ -25,3 +25,8 @@ img{
 .quiz_img {
 	float: none;
 }
+
+#star {
+	width: 20px;
+	height: 20px;
+}

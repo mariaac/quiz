@@ -18,7 +18,7 @@ exports.ownershipRequired = function(req, res, next){
 exports.load = function(req, res, next, quizId){
 	models.Quiz.find({
 			where: {id: Number(quizId)},
-			include: [{model: models.Comment}]
+			include: [{model: models.Comment}] //solicita cargar en la propiedad quiz.Comments los comentarios asociados a quiz a traves de la relacion 1-N entre Quiz y Comment
 		}).then(function(quiz){
 			if(quiz){
 				req.quiz = quiz;
@@ -33,8 +33,13 @@ exports.load = function(req, res, next, quizId){
 //GET /quizes
 exports.index = function(req, res){
 	var options = {};
+	var logUser = req.session.user;
+
 	if(req.user){ //req.user es creado por autoload de usuario 
 		options.where = {UserId: req.user.id} //si la ruta lleva el parametro .quizId
+	}
+	if(req.session && req.session.user){
+		options.include = {model: models.User, as:"Groupies"}
 	}
 	if(req.query.search != null){
 		req.query.search = '%'+req.query.search+'%';
@@ -44,7 +49,12 @@ exports.index = function(req, res){
 	}
 	else {
 		models.Quiz.findAll(options).then(function(quizes){
-			res.render('quizes/index', {quizes: quizes, errors: []});
+			if(req.session.user) {
+				quizes.forEach(function(quiz){
+					quiz.isFav = quiz.Groupies.some(function(groupie){return groupie.id == req.session.user.id});
+				});
+			}
+			res.render('quizes/index.ejs', {quizes: quizes, errors: []});
 		}).catch(function(error){next(error);})
 	}
 	
